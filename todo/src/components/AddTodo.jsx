@@ -6,19 +6,27 @@ function AddTodo() {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
+        image: null,
     });
-    console.log(formData)
-    
-
+    // console.log(formData)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    const handleFileChange = (e) => {
+        setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         await axios
-            .post("http://localhost:8880/api/todo", formData)
+            .post("http://localhost:8880/api/todo", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
             .then((res) => {
                 console.log(res.data);
             })
@@ -38,7 +46,7 @@ function AddTodo() {
                     </label>
                     <input
                         name="title"
-                        id="tilte"
+                        id="title"
                         onChange={handleChange}
                         type="text"
                         value={formData.title}
@@ -53,16 +61,27 @@ function AddTodo() {
                         name="description"
                         id="description"
                         onChange={handleChange}
-                        type="text"
                         value={formData.description}
+                        className="border-2 border-[#5c5c5c] outline-none py-3 px-2 w-full rounded-sm text-[14px] leading-[20px] tracking-[-0.28px]"
+                    />
+                </div>
+                <div className="flex flex-col w-full gap-2">
+                    <label className="font-medium text-[14px] leading-[20px] tracking-[-0.28px]">
+                        Upload Image
+                    </label>
+                    <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        onChange={handleFileChange}
                         className="border-2 border-[#5c5c5c] outline-none py-3 px-2 w-full rounded-sm text-[14px] leading-[20px] tracking-[-0.28px]"
                     />
                 </div>
 
                 <button
                     onClick={handleSubmit}
-                    className="bg-[#437EF7] text-white py-3 rounded-sm font-semibold tracking-[0.48px] "
-                > 
+                    className="bg-[#437EF7] text-white py-3 rounded-sm font-semibold tracking-[0.48px]"
+                >
                     Add Todo
                 </button>
                 <button className="text-[#437EF7] font-semibold py-3 rounded-sm border-2 border-[#437EF7]">

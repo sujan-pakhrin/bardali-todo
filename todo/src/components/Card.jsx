@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Card = () => {
     const [data, setData] = useState([]);
-    // console.log(data[0].status)
+    // console.log(data)
     const fetchData = async () => {
         await axios
             .get("http://localhost:8880/api/todo")
@@ -43,13 +43,14 @@ const Card = () => {
                     {data.map((item, index) => (
                         <div
                             key={index}
-                            className={`${item.status===1 ? "bg-green-400" : "bg-[#f2f7fb]"} flex flex-col gap-5 px-4 py-6 shadow-lg shadow-gray-350 rounded-lg `}
+                            className={`${item.status===1 ? "bg-green-400" : "bg-[#f2f7fb]"} flex flex-col gap-5 px-4 py-6 shadow-lg shadow-gray-400 rounded-md `}
                         >
                             <div className="flex flex-col gap-3">
-                                <h1 className="font-semibold text-2xl">
+                                <h1 className="font-semibold text-2xl uppercase">
                                     {item.title}
                                 </h1>
-                                <span>{item.description}</span>
+                                <img src={`http://localhost:8880/${item.image}`} className='h-[250px] object-cover' alt="img" />
+                                <span className="capitalize">{item.description}</span>
                                 <span className="font-bold text-xs">
                                     Created at: {item.created_at.split("T")[0]}
                                 </span>
@@ -57,7 +58,7 @@ const Card = () => {
                             <div className="flex justify-between">
                                 <button
                                     onClick={()=>handleDone(item.id)}
-                                    className="bg-green-400 text-white px-6 py-2 rounded-sm"
+                                    className={`${item.status===1 ? "border-2 border-white":""}bg-green-400 text-white px-6 py-2 rounded-sm`}
                                 >
                                     Done
                                 </button>

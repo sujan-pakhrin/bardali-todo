@@ -1,11 +1,13 @@
 import db from "../db.js";
 
 export const creatTodo = (req, res) => {
+    console.log(req.file)
+    const image=req.file.filename;
     const { title, description } = req.body;
     const created_at = new Date();
     const sql =
-        "INSERT INTO todo (title, description, created_at) VALUES (?, ?, ?)";
-    const values = [title, description, created_at];
+        "INSERT INTO todo (title, description, created_at,image) VALUES (?, ?, ?,?)";
+    const values = [title, description, created_at,image];
     db.query(sql, values, (err, result) => {
         if (err) {
             res.status(400).send(err);
