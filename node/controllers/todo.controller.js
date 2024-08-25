@@ -63,7 +63,18 @@ export const updateStatus = (req,res) => {
         if (err) {
             res.status(400).send(err);
         } else {
-            res.status(200).send({ message: "Todo Update successfully!!" ,data});
+            res.status(200).send({ message: "Todo status Update successfully!!" ,data});
+        }
+    });
+};
+export const deleteTodo = (req,res) => {
+    const { id } = req.params;
+    const sql = "delete from todo where id=?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            res.status(400).send(err);
+        } else {
+            res.status(200).send({ message: "Todo deleted successfully!!" ,data});
         }
     });
 };

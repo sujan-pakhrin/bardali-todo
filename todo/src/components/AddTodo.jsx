@@ -62,7 +62,7 @@ function AddTodo() {
                 <button
                     onClick={handleSubmit}
                     className="bg-[#437EF7] text-white py-3 rounded-sm font-semibold tracking-[0.48px] "
-                >
+                > 
                     Add Todo
                 </button>
                 <button className="text-[#437EF7] font-semibold py-3 rounded-sm border-2 border-[#437EF7]">

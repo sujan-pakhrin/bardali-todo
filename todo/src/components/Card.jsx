@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const Card = () => {
     const [data, setData] = useState([]);
+    // console.log(data[0].status)
     const fetchData = async () => {
         await axios
             .get("http://localhost:8880/api/todo")
@@ -17,15 +18,24 @@ const Card = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [data]);
+
+    const handleDone = (id) => {
+        axios
+            .put(`http://localhost:8880/api/todostatus/${id}`)
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (
         <div className="flex justify-center my-10">
-            <div>
+            <div className="max-w-[1330px] w-full">
                 <div className="text-right mb-10">
                     <button className="bg-blue-500 text-white py-2 px-5 rounded-sm">
-                        <Link>
-                        Add Todo
-                        </Link>
+                        <Link to={"/add"}>Add Todo</Link>
                     </button>
                 </div>
 
@@ -33,7 +43,7 @@ const Card = () => {
                     {data.map((item, index) => (
                         <div
                             key={index}
-                            className=" flex flex-col gap-5 px-4 py-6 shadow-lg shadow-gray-350 rounded-lg bg-[#f2f7fb]"
+                            className={`${item.status===1 ? "bg-green-400" : "bg-[#f2f7fb]"} flex flex-col gap-5 px-4 py-6 shadow-lg shadow-gray-350 rounded-lg `}
                         >
                             <div className="flex flex-col gap-3">
                                 <h1 className="font-semibold text-2xl">
@@ -45,7 +55,10 @@ const Card = () => {
                                 </span>
                             </div>
                             <div className="flex justify-between">
-                                <button className="bg-green-400 text-white px-6 py-2 rounded-sm">
+                                <button
+                                    onClick={()=>handleDone(item.id)}
+                                    className="bg-green-400 text-white px-6 py-2 rounded-sm"
+                                >
                                     Done
                                 </button>
                                 <button className="bg-red-400 text-white px-6 py-2 rounded-sm">
